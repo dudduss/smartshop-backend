@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.pool = void 0;
 const pg_1 = require("pg");
 exports.pool = new pg_1.Pool({
-    user: 'sampathduddu',
+    user: 'postgres',
     host: 'localhost',
-    password: '',
-    database: 'smartshopdb',
+    password: 'smartshop123',
+    database: 'smartshop',
     port: 5432,
 });

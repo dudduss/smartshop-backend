@@ -34,10 +34,9 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getUserById = getUserById;
-// need to add some sort of validation on the bodies here
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email } = req.body;
-    const response = yield database_1.pool.query('INSERT INTO users (name, email) VALUES($1, $2)', [name, email]);
+    const { email, passwordHash, firstName, lastName, profilePictureUrl, } = req.body;
+    const response = yield database_1.pool.query('INSERT INTO users (email, password_hash, first_name, last_name, profile_picture_url) VALUES($1, $2, $3, $4, $5)', [email, passwordHash, firstName, lastName, profilePictureUrl]);
     return res.json({ message: 'User created succesfully' });
 });
 exports.createUser = createUser;

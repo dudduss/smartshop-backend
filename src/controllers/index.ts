@@ -26,12 +26,18 @@ const getUserById = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-// need to add some sort of validation on the bodies here
 const createUser = async (req: Request, res: Response): Promise<Response> => {
-  const { name, email } = req.body;
+  const {
+    email,
+    passwordHash,
+    firstName,
+    lastName,
+    profilePictureUrl,
+  } = req.body;
+
   const response: QueryResult = await pool.query(
-    'INSERT INTO users (name, email) VALUES($1, $2)',
-    [name, email]
+    'INSERT INTO users (email, password_hash, first_name, last_name, profile_picture_url) VALUES($1, $2, $3, $4, $5)',
+    [email, passwordHash, firstName, lastName, profilePictureUrl]
   );
   return res.json({ message: 'User created succesfully' });
 };
