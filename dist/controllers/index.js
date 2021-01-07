@@ -9,22 +9,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUser = exports.getUserById = exports.getUsers = void 0;
+exports.createUser = exports.getUserById = void 0;
 const database_1 = require("../database");
-const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const response = yield database_1.pool.query('SELECT * FROM users');
-        return res.status(200).json(response.rows);
-    }
-    catch (e) {
-        console.log(e);
-        return res.status(500).json('Internal Server Error');
-    }
-});
-exports.getUsers = getUsers;
+// const getUsers = async (req: Request, res: Response): Promise<Response> => {
+//   try {
+//     const response: QueryResult = await pool.query('SELECT * FROM users');
+//     return res.status(200).json(response.rows);
+//   } catch (e) {
+//     console.log(e);
+//     return res.status(500).json('Internal Server Error');
+//   }
+// };
 const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userId = parseInt(req.params.id);
+        const userId = req.query['id'];
         const response = yield database_1.pool.query('SELECT * FROM users WHERE id = $1', [userId]);
         return res.status(200).json(response.rows);
     }
