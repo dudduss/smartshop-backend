@@ -9,3 +9,12 @@ export const postUsersBody = Joi.object({
 });
 
 export const getUsersQuery = Joi.object({ id: Joi.number().required() });
+
+export const postItemsBody = Joi.object({
+  numReviews: Joi.number(),
+  rating: Joi.number(),
+  foodName: Joi.string().required(),
+  nix_item_id: Joi.string().required(),
+  brandName: Joi.string(),
+  nix_brand_id: Joi.string(),
+});

@@ -12,7 +12,10 @@ import { pool } from '../database';
 //   }
 // };
 
-const getUserById = async (req: Request, res: Response): Promise<Response> => {
+export const getUserById = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   try {
     const userId = req.query['id'];
     const response: QueryResult = await pool.query(
@@ -26,7 +29,10 @@ const getUserById = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-const createUser = async (req: Request, res: Response): Promise<Response> => {
+export const createUser = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const {
     email,
     passwordHash,
@@ -42,4 +48,15 @@ const createUser = async (req: Request, res: Response): Promise<Response> => {
   return res.json({ message: 'User created succesfully' });
 };
 
-export { getUserById, createUser };
+export const createItem = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const { foodName, nix_item_id, brandName, nix_brand_id } = req.body;
+
+  const response: QueryResult = await pool.query(
+    'INSERT INTO items (food_name, nix_item_id, brand_name, nix_brand_id) VALUES($1, $2, $3, $4)',
+    [foodName, nix_item_id, brandName, nix_brand_id]
+  );
+  return res.json({ message: 'Item created succesfully' });
+};

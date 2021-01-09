@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUser = exports.getUserById = void 0;
+exports.createItem = exports.createUser = exports.getUserById = void 0;
 const database_1 = require("../database");
 // const getUsers = async (req: Request, res: Response): Promise<Response> => {
 //   try {
@@ -38,3 +38,9 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     return res.json({ message: 'User created succesfully' });
 });
 exports.createUser = createUser;
+const createItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { foodName, nix_item_id, brandName, nix_brand_id } = req.body;
+    const response = yield database_1.pool.query('INSERT INTO items (food_name, nix_item_id, brand_name, nix_brand_id) VALUES($1, $2, $3, $4)', [foodName, nix_item_id, brandName, nix_brand_id]);
+    return res.json({ message: 'Item created succesfully' });
+});
+exports.createItem = createItem;

@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUsersQuery = exports.postUsersBody = void 0;
+exports.postItemsBody = exports.getUsersQuery = exports.postUsersBody = void 0;
 const Joi = __importStar(require("joi"));
 exports.postUsersBody = Joi.object({
     email: Joi.string().required(),
@@ -29,3 +29,11 @@ exports.postUsersBody = Joi.object({
     profilePictureUrl: Joi.string(),
 });
 exports.getUsersQuery = Joi.object({ id: Joi.number().required() });
+exports.postItemsBody = Joi.object({
+    numReviews: Joi.number(),
+    rating: Joi.number(),
+    foodName: Joi.string().required(),
+    nix_item_id: Joi.string().required(),
+    brandName: Joi.string(),
+    nix_brand_id: Joi.string(),
+});

@@ -3,18 +3,19 @@ import {
   // Creates a validator that generates middlewares
   createValidator,
 } from 'express-joi-validation';
-import { getUsersQuery, postUsersBody } from './schemas';
+import { getUsersQuery, postUsersBody, postItemsBody } from './schemas';
 
-import { getUsers, getUserById, createUser } from '../controllers/index';
+import { getUserById, createUser, createItem } from '../controllers/index';
 
 const router = Router();
 const validator = createValidator();
 
-//Users Routes
+// Users Routes
 router.post('/users', validator.body(postUsersBody), createUser);
-router.get('/users/', getUserById);
-// router.get('/users', getUsers);
-// router.get('/users/:id', getUserById);
-// router.delete('/users/:id', getUsers);
+router.get('/users/', validator.query(getUsersQuery), getUserById);
+// router.delete('/users/', deleteUserById);
+
+// Items Routes
+router.post('/items', validator.body(postItemsBody), createItem);
 
 export default router;
