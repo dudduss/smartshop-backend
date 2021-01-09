@@ -3,39 +3,46 @@ import {
   // Creates a validator that generates middlewares
   createValidator,
 } from 'express-joi-validation';
+
+import { getUsersQuery, postUsersBody } from '../schemas/UserSchema';
 import {
-  getUsersQuery,
-  postUsersBody,
   postItemsBody,
   patchItemsBody,
   getItemByIdQuery,
   getItemByNixIdQuery,
+} from '../schemas/ItemSchema';
+import {
   postMarkedItemsBody,
   getMarkedItemsByUserIdQuery,
   deleteMarkedItemQuery,
+} from '../schemas/MarkedItemSchema';
+import {
   postReviewsBody,
   patchReviewsBody,
   getReviewsByUserIdQuery,
   getReviewsByItemIdQuery,
   deleteReviewsQuery,
-} from './schemas';
+} from '../schemas/ReviewSchema';
 
+import { getUserById, createUser } from '../controllers/UserController';
 import {
-  getUserById,
   getItemById,
-  createUser,
   createItem,
   updateItem,
   getItemByNixId,
+} from '../controllers/ItemController';
+import {
   createMarkedItem,
   getMarkedItemsByUserId,
   deleteMarkedItemById,
+} from '../controllers/MarkedItemController';
+import {
   createReview,
   updateReview,
   getReviewsByUserId,
   getReviewsByItemId,
   deleteReview,
-} from '../controllers/index';
+} from '../controllers/ReviewController';
 
 const router = Router();
 const validator = createValidator();
