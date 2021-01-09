@@ -7,14 +7,14 @@ import {
   getUsersQuery,
   postUsersBody,
   postItemsBody,
-  putItemsBody,
+  patchItemsBody,
   getItemByIdQuery,
   getItemByNixIdQuery,
   postMarkedItemsBody,
   getMarkedItemsByUserIdQuery,
   deleteMarkedItemQuery,
   postReviewsBody,
-  putReviewsBody,
+  patchReviewsBody,
   getReviewsByUserIdQuery,
   getReviewsByItemIdQuery,
   deleteReviewsQuery,
@@ -53,7 +53,7 @@ router.get(
   validator.query(getItemByNixIdQuery),
   getItemByNixId
 );
-router.put('/items', validator.body(putItemsBody), updateItem);
+router.patch('/items', validator.body(patchItemsBody), updateItem);
 
 // MarkedItems Routes
 router.post(
@@ -74,7 +74,7 @@ router.delete(
 
 // Reviews Routes
 router.post('/reviews', validator.body(postReviewsBody), createReview);
-router.put('/reviews', validator.body(putReviewsBody), updateReview);
+router.patch('/reviews', validator.body(patchReviewsBody), updateReview);
 router.get(
   '/reviewsByUserId/',
   validator.query(getReviewsByUserIdQuery),

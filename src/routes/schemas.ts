@@ -21,7 +21,7 @@ export const postItemsBody = Joi.object({
   nix_brand_id: Joi.string(),
 });
 
-export const putItemsBody = Joi.object({
+export const patchItemsBody = Joi.object({
   id: Joi.number().required(),
   numReviews: Joi.number().required(),
   rating: Joi.number().required(),
@@ -55,7 +55,7 @@ export const postReviewsBody = Joi.object({
   rating: Joi.number().required(),
 });
 
-export const putReviewsBody = Joi.object({
+export const patchReviewsBody = Joi.object({
   id: Joi.number().required(),
   content: Joi.string(),
   rating: Joi.number().required(),
