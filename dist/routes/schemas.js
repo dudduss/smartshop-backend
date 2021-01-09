@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteMarkedItemByIdQuery = exports.getMarkedItemsByUserIdQuery = exports.postMarkedItemsBody = exports.getItemByNixIdQuery = exports.getItemByIdQuery = exports.putItemsBody = exports.postItemsBody = exports.getUsersQuery = exports.postUsersBody = void 0;
+exports.deleteReviewsQuery = exports.getReviewsByItemIdQuery = exports.getReviewsByUserIdQuery = exports.putReviewsBody = exports.postReviewsBody = exports.deleteMarkedItemQuery = exports.getMarkedItemsByUserIdQuery = exports.postMarkedItemsBody = exports.getItemByNixIdQuery = exports.getItemByIdQuery = exports.putItemsBody = exports.postItemsBody = exports.getUsersQuery = exports.postUsersBody = void 0;
 const Joi = __importStar(require("joi"));
 // Users Schemas
 exports.postUsersBody = Joi.object({
@@ -56,6 +56,27 @@ exports.postMarkedItemsBody = Joi.object({
 exports.getMarkedItemsByUserIdQuery = Joi.object({
     userId: Joi.number().required(),
 });
-exports.deleteMarkedItemByIdQuery = Joi.object({
+exports.deleteMarkedItemQuery = Joi.object({
     id: Joi.number().required(),
+});
+// Reviews Schemas
+exports.postReviewsBody = Joi.object({
+    userId: Joi.number().required(),
+    itemId: Joi.number().required(),
+    content: Joi.string(),
+    rating: Joi.number().required(),
+});
+exports.putReviewsBody = Joi.object({
+    id: Joi.number().required(),
+    content: Joi.string(),
+    rating: Joi.number().required(),
+});
+exports.getReviewsByUserIdQuery = Joi.object({
+    userId: Joi.number().required(),
+});
+exports.getReviewsByItemIdQuery = Joi.object({
+    itemId: Joi.string().required(),
+});
+exports.deleteReviewsQuery = Joi.object({
+    id: Joi.string().required(),
 });

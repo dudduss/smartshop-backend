@@ -12,7 +12,12 @@ import {
   getItemByNixIdQuery,
   postMarkedItemsBody,
   getMarkedItemsByUserIdQuery,
-  deleteMarkedItemByIdQuery,
+  deleteMarkedItemQuery,
+  postReviewsBody,
+  putReviewsBody,
+  getReviewsByUserIdQuery,
+  getReviewsByItemIdQuery,
+  deleteReviewsQuery,
 } from './schemas';
 
 import {
@@ -25,6 +30,11 @@ import {
   createMarkedItem,
   getMarkedItemsByUserId,
   deleteMarkedItemById,
+  createReview,
+  updateReview,
+  getReviewsByUserId,
+  getReviewsByItemId,
+  deleteReview,
 } from '../controllers/index';
 
 const router = Router();
@@ -57,9 +67,24 @@ router.get(
   getMarkedItemsByUserId
 );
 router.delete(
-  '/markedItemsById',
-  validator.query(deleteMarkedItemByIdQuery),
+  '/markedItems',
+  validator.query(deleteMarkedItemQuery),
   deleteMarkedItemById
 );
+
+// Reviews Routes
+router.post('/reviews', validator.body(postReviewsBody), createReview);
+router.put('/reviews', validator.body(putReviewsBody), updateReview);
+router.get(
+  '/reviewsByUserId/',
+  validator.query(getReviewsByUserIdQuery),
+  getReviewsByUserId
+);
+router.get(
+  '/reviewsByItemId/',
+  validator.query(getReviewsByItemIdQuery),
+  getReviewsByItemId
+);
+router.delete('/reviews', validator.query(deleteReviewsQuery), deleteReview);
 
 export default router;

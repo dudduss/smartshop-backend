@@ -18,5 +18,11 @@ router.put('/items', validator.body(schemas_1.putItemsBody), index_1.updateItem)
 // MarkedItems Routes
 router.post('/markedItems', validator.body(schemas_1.postMarkedItemsBody), index_1.createMarkedItem);
 router.get('/markedItemsByUserId/', validator.query(schemas_1.getMarkedItemsByUserIdQuery), index_1.getMarkedItemsByUserId);
-router.delete('/markedItemsById', validator.query(schemas_1.deleteMarkedItemByIdQuery), index_1.deleteMarkedItemById);
+router.delete('/markedItems', validator.query(schemas_1.deleteMarkedItemQuery), index_1.deleteMarkedItemById);
+// Reviews Routes
+router.post('/reviews', validator.body(schemas_1.postReviewsBody), index_1.createReview);
+router.put('/reviews', validator.body(schemas_1.putReviewsBody), index_1.updateReview);
+router.get('/reviewsByUserId/', validator.query(schemas_1.getReviewsByUserIdQuery), index_1.getReviewsByUserId);
+router.get('/reviewsByItemId/', validator.query(schemas_1.getReviewsByItemIdQuery), index_1.getReviewsByItemId);
+router.delete('/reviews', validator.query(schemas_1.deleteReviewsQuery), index_1.deleteReview);
 exports.default = router;

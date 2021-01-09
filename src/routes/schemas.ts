@@ -43,6 +43,32 @@ export const getMarkedItemsByUserIdQuery = Joi.object({
   userId: Joi.number().required(),
 });
 
-export const deleteMarkedItemByIdQuery = Joi.object({
+export const deleteMarkedItemQuery = Joi.object({
   id: Joi.number().required(),
+});
+
+// Reviews Schemas
+export const postReviewsBody = Joi.object({
+  userId: Joi.number().required(),
+  itemId: Joi.number().required(),
+  content: Joi.string(),
+  rating: Joi.number().required(),
+});
+
+export const putReviewsBody = Joi.object({
+  id: Joi.number().required(),
+  content: Joi.string(),
+  rating: Joi.number().required(),
+});
+
+export const getReviewsByUserIdQuery = Joi.object({
+  userId: Joi.number().required(),
+});
+
+export const getReviewsByItemIdQuery = Joi.object({
+  itemId: Joi.string().required(),
+});
+
+export const deleteReviewsQuery = Joi.object({
+  id: Joi.string().required(),
 });
