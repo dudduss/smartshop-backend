@@ -18,27 +18,41 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         return res.status(200).json(response.rows);
     }
     catch (e) {
-        console.log(e);
-        return res.status(500).json('Internal Server Error');
+        return res.status(500).json(e);
     }
 });
 exports.getUserById = getUserById;
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, passwordHash, firstName, lastName, profilePictureUrl, } = req.body;
-    yield database_1.pool.query('INSERT INTO users (email, password_hash, first_name, last_name, profile_picture_url) VALUES($1, $2, $3, $4, $5)', [email, passwordHash, firstName, lastName, profilePictureUrl]);
-    return res.json({ message: 'User created succesfully' });
+    try {
+        const { email, passwordHash, firstName, lastName, profilePictureUrl, } = req.body;
+        yield database_1.pool.query('INSERT INTO users (email, password_hash, first_name, last_name, profile_picture_url) VALUES($1, $2, $3, $4, $5)', [email, passwordHash, firstName, lastName, profilePictureUrl]);
+        return res.json({ message: 'User created succesfully' });
+    }
+    catch (e) {
+        return res.status(500).json(e);
+    }
 });
 exports.createUser = createUser;
 const createItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { foodName, nix_item_id, brandName, nix_brand_id } = req.body;
-    yield database_1.pool.query('INSERT INTO items (food_name, nix_item_id, brand_name, nix_brand_id) VALUES($1, $2, $3, $4)', [foodName, nix_item_id, brandName, nix_brand_id]);
-    return res.json({ message: 'Item created succesfully' });
+    try {
+        const { foodName, nix_item_id, brandName, nix_brand_id } = req.body;
+        yield database_1.pool.query('INSERT INTO items (food_name, nix_item_id, brand_name, nix_brand_id) VALUES($1, $2, $3, $4)', [foodName, nix_item_id, brandName, nix_brand_id]);
+        return res.json({ message: 'Item created succesfully' });
+    }
+    catch (e) {
+        return res.status(500).json(e);
+    }
 });
 exports.createItem = createItem;
 const updateItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id, numReviews, rating } = req.body;
-    yield database_1.pool.query('UPDATE items SET num_reviews = $2, rating = $3 WHERE id = $1', [id, numReviews, rating]);
-    return res.json({ message: 'Item updated succesfully' });
+    try {
+        const { id, numReviews, rating } = req.body;
+        yield database_1.pool.query('UPDATE items SET num_reviews = $2, rating = $3 WHERE id = $1', [id, numReviews, rating]);
+        return res.json({ message: 'Item updated succesfully' });
+    }
+    catch (e) {
+        return res.status(500).json(e);
+    }
 });
 exports.updateItem = updateItem;
 const getItemById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -48,8 +62,7 @@ const getItemById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         return res.status(200).json(response.rows);
     }
     catch (e) {
-        console.log(e);
-        return res.status(500).json('Internal Server Error');
+        return res.status(500).json(e);
     }
 });
 exports.getItemById = getItemById;
@@ -60,8 +73,7 @@ const getItemByNixId = (req, res) => __awaiter(void 0, void 0, void 0, function*
         return res.status(200).json(response.rows);
     }
     catch (e) {
-        console.log(e);
-        return res.status(500).json('Internal Server Error');
+        return res.status(500).json(e);
     }
 });
 exports.getItemByNixId = getItemByNixId;
@@ -83,8 +95,7 @@ const getMarkedItemsByUserId = (req, res) => __awaiter(void 0, void 0, void 0, f
         return res.status(200).json(response.rows);
     }
     catch (e) {
-        console.log(e);
-        return res.status(500).json('Internal Server Error');
+        return res.status(500).json(e);
     }
 });
 exports.getMarkedItemsByUserId = getMarkedItemsByUserId;
@@ -95,21 +106,30 @@ const deleteMarkedItemById = (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(200).json('Succesfully deleted MarkedItem');
     }
     catch (e) {
-        console.log(e);
-        return res.status(500).json('Internal Server Error');
+        return res.status(500).json(e);
     }
 });
 exports.deleteMarkedItemById = deleteMarkedItemById;
 const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userId, itemId, content, rating } = req.body;
-    yield database_1.pool.query('INSERT INTO reviews (user_id, item_id, content, rating) VALUES($1, $2, $3, $4)', [userId, itemId, content, rating]);
-    return res.json({ message: 'Review created succesfully' });
+    try {
+        const { userId, itemId, content, rating } = req.body;
+        yield database_1.pool.query('INSERT INTO reviews (user_id, item_id, content, rating) VALUES($1, $2, $3, $4)', [userId, itemId, content, rating]);
+        return res.json({ message: 'Review created succesfully' });
+    }
+    catch (e) {
+        return res.status(500).json(e);
+    }
 });
 exports.createReview = createReview;
 const updateReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id, content, rating } = req.body;
-    yield database_1.pool.query('UPDATE reviews SET content = $2, rating = $3 WHERE id = $1', [id, content, rating]);
-    return res.json({ message: 'Review updated succesfully' });
+    try {
+        const { id, content, rating } = req.body;
+        yield database_1.pool.query('UPDATE reviews SET content = $2, rating = $3 WHERE id = $1', [id, content, rating]);
+        return res.json({ message: 'Review updated succesfully' });
+    }
+    catch (e) {
+        return res.status(500).json(e);
+    }
 });
 exports.updateReview = updateReview;
 const getReviewsByUserId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -119,8 +139,7 @@ const getReviewsByUserId = (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.status(200).json(response.rows);
     }
     catch (e) {
-        console.log(e);
-        return res.status(500).json('Internal Server Error');
+        return res.status(500).json(e);
     }
 });
 exports.getReviewsByUserId = getReviewsByUserId;
@@ -131,8 +150,7 @@ const getReviewsByItemId = (req, res) => __awaiter(void 0, void 0, void 0, funct
         return res.status(200).json(response.rows);
     }
     catch (e) {
-        console.log(e);
-        return res.status(500).json('Internal Server Error');
+        return res.status(500).json(e);
     }
 });
 exports.getReviewsByItemId = getReviewsByItemId;
@@ -143,8 +161,7 @@ const deleteReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         return res.status(200).json('Succesfully deleted Review');
     }
     catch (e) {
-        console.log(e);
-        return res.status(500).json('Internal Server Error');
+        return res.status(500).json(e);
     }
 });
 exports.deleteReview = deleteReview;

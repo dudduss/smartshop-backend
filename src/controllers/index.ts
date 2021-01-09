@@ -14,8 +14,7 @@ export const getUserById = async (
     );
     return res.status(200).json(response.rows);
   } catch (e) {
-    console.log(e);
-    return res.status(500).json('Internal Server Error');
+    return res.status(500).json(e);
   }
 };
 
@@ -23,45 +22,57 @@ export const createUser = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const {
-    email,
-    passwordHash,
-    firstName,
-    lastName,
-    profilePictureUrl,
-  } = req.body;
+  try {
+    const {
+      email,
+      passwordHash,
+      firstName,
+      lastName,
+      profilePictureUrl,
+    } = req.body;
 
-  await pool.query(
-    'INSERT INTO users (email, password_hash, first_name, last_name, profile_picture_url) VALUES($1, $2, $3, $4, $5)',
-    [email, passwordHash, firstName, lastName, profilePictureUrl]
-  );
-  return res.json({ message: 'User created succesfully' });
+    await pool.query(
+      'INSERT INTO users (email, password_hash, first_name, last_name, profile_picture_url) VALUES($1, $2, $3, $4, $5)',
+      [email, passwordHash, firstName, lastName, profilePictureUrl]
+    );
+    return res.json({ message: 'User created succesfully' });
+  } catch (e) {
+    return res.status(500).json(e);
+  }
 };
 
 export const createItem = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const { foodName, nix_item_id, brandName, nix_brand_id } = req.body;
+  try {
+    const { foodName, nix_item_id, brandName, nix_brand_id } = req.body;
 
-  await pool.query(
-    'INSERT INTO items (food_name, nix_item_id, brand_name, nix_brand_id) VALUES($1, $2, $3, $4)',
-    [foodName, nix_item_id, brandName, nix_brand_id]
-  );
-  return res.json({ message: 'Item created succesfully' });
+    await pool.query(
+      'INSERT INTO items (food_name, nix_item_id, brand_name, nix_brand_id) VALUES($1, $2, $3, $4)',
+      [foodName, nix_item_id, brandName, nix_brand_id]
+    );
+    return res.json({ message: 'Item created succesfully' });
+  } catch (e) {
+    return res.status(500).json(e);
+  }
 };
 
 export const updateItem = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const { id, numReviews, rating } = req.body;
+  try {
+    const { id, numReviews, rating } = req.body;
 
-  await pool.query(
-    'UPDATE items SET num_reviews = $2, rating = $3 WHERE id = $1',
-    [id, numReviews, rating]
-  );
-  return res.json({ message: 'Item updated succesfully' });
+    await pool.query(
+      'UPDATE items SET num_reviews = $2, rating = $3 WHERE id = $1',
+      [id, numReviews, rating]
+    );
+    return res.json({ message: 'Item updated succesfully' });
+  } catch (e) {
+    return res.status(500).json(e);
+  }
 };
 
 export const getItemById = async (
@@ -76,8 +87,7 @@ export const getItemById = async (
     );
     return res.status(200).json(response.rows);
   } catch (e) {
-    console.log(e);
-    return res.status(500).json('Internal Server Error');
+    return res.status(500).json(e);
   }
 };
 
@@ -93,8 +103,7 @@ export const getItemByNixId = async (
     );
     return res.status(200).json(response.rows);
   } catch (e) {
-    console.log(e);
-    return res.status(500).json('Internal Server Error');
+    return res.status(500).json(e);
   }
 };
 
@@ -127,8 +136,7 @@ export const getMarkedItemsByUserId = async (
     );
     return res.status(200).json(response.rows);
   } catch (e) {
-    console.log(e);
-    return res.status(500).json('Internal Server Error');
+    return res.status(500).json(e);
   }
 };
 
@@ -141,8 +149,7 @@ export const deleteMarkedItemById = async (
     await pool.query('DELETE FROM markedItems WHERE id = $1', [markedItemId]);
     return res.status(200).json('Succesfully deleted MarkedItem');
   } catch (e) {
-    console.log(e);
-    return res.status(500).json('Internal Server Error');
+    return res.status(500).json(e);
   }
 };
 
@@ -150,26 +157,34 @@ export const createReview = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const { userId, itemId, content, rating } = req.body;
+  try {
+    const { userId, itemId, content, rating } = req.body;
 
-  await pool.query(
-    'INSERT INTO reviews (user_id, item_id, content, rating) VALUES($1, $2, $3, $4)',
-    [userId, itemId, content, rating]
-  );
-  return res.json({ message: 'Review created succesfully' });
+    await pool.query(
+      'INSERT INTO reviews (user_id, item_id, content, rating) VALUES($1, $2, $3, $4)',
+      [userId, itemId, content, rating]
+    );
+    return res.json({ message: 'Review created succesfully' });
+  } catch (e) {
+    return res.status(500).json(e);
+  }
 };
 
 export const updateReview = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const { id, content, rating } = req.body;
+  try {
+    const { id, content, rating } = req.body;
 
-  await pool.query(
-    'UPDATE reviews SET content = $2, rating = $3 WHERE id = $1',
-    [id, content, rating]
-  );
-  return res.json({ message: 'Review updated succesfully' });
+    await pool.query(
+      'UPDATE reviews SET content = $2, rating = $3 WHERE id = $1',
+      [id, content, rating]
+    );
+    return res.json({ message: 'Review updated succesfully' });
+  } catch (e) {
+    return res.status(500).json(e);
+  }
 };
 
 export const getReviewsByUserId = async (
@@ -184,8 +199,7 @@ export const getReviewsByUserId = async (
     );
     return res.status(200).json(response.rows);
   } catch (e) {
-    console.log(e);
-    return res.status(500).json('Internal Server Error');
+    return res.status(500).json(e);
   }
 };
 
@@ -201,8 +215,7 @@ export const getReviewsByItemId = async (
     );
     return res.status(200).json(response.rows);
   } catch (e) {
-    console.log(e);
-    return res.status(500).json('Internal Server Error');
+    return res.status(500).json(e);
   }
 };
 
@@ -215,7 +228,6 @@ export const deleteReview = async (
     await pool.query('DELETE FROM reviews WHERE id = $1', [reviewId]);
     return res.status(200).json('Succesfully deleted Review');
   } catch (e) {
-    console.log(e);
-    return res.status(500).json('Internal Server Error');
+    return res.status(500).json(e);
   }
 };
