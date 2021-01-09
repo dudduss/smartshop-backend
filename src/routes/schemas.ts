@@ -32,3 +32,17 @@ export const getItemByIdQuery = Joi.object({ id: Joi.number().required() });
 export const getItemByNixIdQuery = Joi.object({
   nix_item_id: Joi.string().required(),
 });
+
+// MarkedItems Schemas
+export const postMarkedItemsBody = Joi.object({
+  userId: Joi.number().required(),
+  itemId: Joi.number().required(),
+});
+
+export const getMarkedItemsByUserIdQuery = Joi.object({
+  userId: Joi.number().required(),
+});
+
+export const deleteMarkedItemByIdQuery = Joi.object({
+  id: Joi.number().required(),
+});

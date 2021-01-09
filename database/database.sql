@@ -39,13 +39,13 @@ CREATE TABLE reviews (
 
 CREATE TABLE markedItems (
     id serial PRIMARY KEY,
-    userId INTEGER, 
+    user_id INTEGER NOT NULL, 
     CONSTRAINT fk_reviews_users
-    FOREIGN KEY (userId) 
+    FOREIGN KEY (user_id) 
         REFERENCES users (id),
-    itemId INTEGER, 
+    item_id INTEGER NOT NULL, 
     CONSTRAINT fk_reviews_items 
-    FOREIGN KEY (itemId)
+    FOREIGN KEY (item_id)
         REFERENCES items (id),
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()

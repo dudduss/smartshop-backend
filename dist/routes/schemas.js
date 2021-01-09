@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getItemByNixIdQuery = exports.getItemByIdQuery = exports.putItemsBody = exports.postItemsBody = exports.getUsersQuery = exports.postUsersBody = void 0;
+exports.deleteMarkedItemByIdQuery = exports.getMarkedItemsByUserIdQuery = exports.postMarkedItemsBody = exports.getItemByNixIdQuery = exports.getItemByIdQuery = exports.putItemsBody = exports.postItemsBody = exports.getUsersQuery = exports.postUsersBody = void 0;
 const Joi = __importStar(require("joi"));
 // Users Schemas
 exports.postUsersBody = Joi.object({
@@ -47,4 +47,15 @@ exports.putItemsBody = Joi.object({
 exports.getItemByIdQuery = Joi.object({ id: Joi.number().required() });
 exports.getItemByNixIdQuery = Joi.object({
     nix_item_id: Joi.string().required(),
+});
+// MarkedItems Schemas
+exports.postMarkedItemsBody = Joi.object({
+    userId: Joi.number().required(),
+    itemId: Joi.number().required(),
+});
+exports.getMarkedItemsByUserIdQuery = Joi.object({
+    userId: Joi.number().required(),
+});
+exports.deleteMarkedItemByIdQuery = Joi.object({
+    id: Joi.number().required(),
 });

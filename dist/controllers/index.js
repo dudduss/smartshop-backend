@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getItemByNixId = exports.getItemById = exports.updateItem = exports.createItem = exports.createUser = exports.getUserById = void 0;
+exports.deleteMarkedItemById = exports.getMarkedItemsByUserId = exports.createMarkedItem = exports.getItemByNixId = exports.getItemById = exports.updateItem = exports.createItem = exports.createUser = exports.getUserById = void 0;
 const database_1 = require("../database");
 const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -65,3 +65,41 @@ const getItemByNixId = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getItemByNixId = getItemByNixId;
+const createMarkedItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { userId, itemId } = req.body;
+        yield database_1.pool.query('INSERT INTO markedItems (user_id, item_id) VALUES($1, $2)', [userId, itemId]);
+        return res.json({ message: 'MarkedItem created succesfully' });
+    }
+    catch (e) {
+        // console.log(e);
+        console.log('here');
+        console.log('error: ', e);
+        return res.status(500).json(e.detail);
+    }
+});
+exports.createMarkedItem = createMarkedItem;
+const getMarkedItemsByUserId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userid = req.query['userId'];
+        const response = yield database_1.pool.query('SELECT * FROM markedItems WHERE user_id = $1', [userid]);
+        return res.status(200).json(response.rows);
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json('Internal Server Error');
+    }
+});
+exports.getMarkedItemsByUserId = getMarkedItemsByUserId;
+const deleteMarkedItemById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const markedItemId = req.query['id'];
+        yield database_1.pool.query('DELETE FROM markedItems WHERE id = $1', [markedItemId]);
+        return res.status(200).json('Succesfully deleted MarkedItem');
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json('Internal Server Error');
+    }
+});
+exports.deleteMarkedItemById = deleteMarkedItemById;

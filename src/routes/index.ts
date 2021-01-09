@@ -10,6 +10,9 @@ import {
   putItemsBody,
   getItemByIdQuery,
   getItemByNixIdQuery,
+  postMarkedItemsBody,
+  getMarkedItemsByUserIdQuery,
+  deleteMarkedItemByIdQuery,
 } from './schemas';
 
 import {
@@ -19,6 +22,9 @@ import {
   createItem,
   updateItem,
   getItemByNixId,
+  createMarkedItem,
+  getMarkedItemsByUserId,
+  deleteMarkedItemById,
 } from '../controllers/index';
 
 const router = Router();
@@ -38,5 +44,22 @@ router.get(
   getItemByNixId
 );
 router.put('/items', validator.body(putItemsBody), updateItem);
+
+// MarkedItems Routes
+router.post(
+  '/markedItems',
+  validator.body(postMarkedItemsBody),
+  createMarkedItem
+);
+router.get(
+  '/markedItemsByUserId/',
+  validator.query(getMarkedItemsByUserIdQuery),
+  getMarkedItemsByUserId
+);
+router.delete(
+  '/markedItemsById',
+  validator.query(deleteMarkedItemByIdQuery),
+  deleteMarkedItemById
+);
 
 export default router;

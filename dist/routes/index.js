@@ -15,4 +15,8 @@ router.post('/items', validator.body(schemas_1.postItemsBody), index_1.createIte
 router.get('/itemsById/', validator.query(schemas_1.getItemByIdQuery), index_1.getItemById);
 router.get('/itemsByNixId/', validator.query(schemas_1.getItemByNixIdQuery), index_1.getItemByNixId);
 router.put('/items', validator.body(schemas_1.putItemsBody), index_1.updateItem);
+// MarkedItems Routes
+router.post('/markedItems', validator.body(schemas_1.postMarkedItemsBody), index_1.createMarkedItem);
+router.get('/markedItemsByUserId/', validator.query(schemas_1.getMarkedItemsByUserIdQuery), index_1.getMarkedItemsByUserId);
+router.delete('/markedItemsById', validator.query(schemas_1.deleteMarkedItemByIdQuery), index_1.deleteMarkedItemById);
 exports.default = router;
