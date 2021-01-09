@@ -3,9 +3,23 @@ import {
   // Creates a validator that generates middlewares
   createValidator,
 } from 'express-joi-validation';
-import { getUsersQuery, postUsersBody, postItemsBody } from './schemas';
+import {
+  getUsersQuery,
+  postUsersBody,
+  postItemsBody,
+  putItemsBody,
+  getItemByIdQuery,
+  getItemByNixIdQuery,
+} from './schemas';
 
-import { getUserById, createUser, createItem } from '../controllers/index';
+import {
+  getUserById,
+  getItemById,
+  createUser,
+  createItem,
+  updateItem,
+  getItemByNixId,
+} from '../controllers/index';
 
 const router = Router();
 const validator = createValidator();
@@ -17,5 +31,12 @@ router.get('/users/', validator.query(getUsersQuery), getUserById);
 
 // Items Routes
 router.post('/items', validator.body(postItemsBody), createItem);
+router.get('/itemsById/', validator.query(getItemByIdQuery), getItemById);
+router.get(
+  '/itemsByNixId/',
+  validator.query(getItemByNixIdQuery),
+  getItemByNixId
+);
+router.put('/items', validator.body(putItemsBody), updateItem);
 
 export default router;

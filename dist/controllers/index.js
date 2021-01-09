@@ -9,17 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createItem = exports.createUser = exports.getUserById = void 0;
+exports.getItemByNixId = exports.getItemById = exports.updateItem = exports.createItem = exports.createUser = exports.getUserById = void 0;
 const database_1 = require("../database");
-// const getUsers = async (req: Request, res: Response): Promise<Response> => {
-//   try {
-//     const response: QueryResult = await pool.query('SELECT * FROM users');
-//     return res.status(200).json(response.rows);
-//   } catch (e) {
-//     console.log(e);
-//     return res.status(500).json('Internal Server Error');
-//   }
-// };
 const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userId = req.query['id'];
@@ -34,13 +25,43 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getUserById = getUserById;
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, passwordHash, firstName, lastName, profilePictureUrl, } = req.body;
-    const response = yield database_1.pool.query('INSERT INTO users (email, password_hash, first_name, last_name, profile_picture_url) VALUES($1, $2, $3, $4, $5)', [email, passwordHash, firstName, lastName, profilePictureUrl]);
+    yield database_1.pool.query('INSERT INTO users (email, password_hash, first_name, last_name, profile_picture_url) VALUES($1, $2, $3, $4, $5)', [email, passwordHash, firstName, lastName, profilePictureUrl]);
     return res.json({ message: 'User created succesfully' });
 });
 exports.createUser = createUser;
 const createItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { foodName, nix_item_id, brandName, nix_brand_id } = req.body;
-    const response = yield database_1.pool.query('INSERT INTO items (food_name, nix_item_id, brand_name, nix_brand_id) VALUES($1, $2, $3, $4)', [foodName, nix_item_id, brandName, nix_brand_id]);
+    yield database_1.pool.query('INSERT INTO items (food_name, nix_item_id, brand_name, nix_brand_id) VALUES($1, $2, $3, $4)', [foodName, nix_item_id, brandName, nix_brand_id]);
     return res.json({ message: 'Item created succesfully' });
 });
 exports.createItem = createItem;
+const updateItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id, numReviews, rating } = req.body;
+    yield database_1.pool.query('UPDATE items SET num_reviews = $2, rating = $3 WHERE id = $1', [id, numReviews, rating]);
+    return res.json({ message: 'Item updated succesfully' });
+});
+exports.updateItem = updateItem;
+const getItemById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const itemId = req.query['id'];
+        const response = yield database_1.pool.query('SELECT * FROM items WHERE id = $1', [itemId]);
+        return res.status(200).json(response.rows);
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json('Internal Server Error');
+    }
+});
+exports.getItemById = getItemById;
+const getItemByNixId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const nixId = req.query['nix_item_id'];
+        const response = yield database_1.pool.query('SELECT * FROM items WHERE nix_item_id = $1', [nixId]);
+        return res.status(200).json(response.rows);
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json('Internal Server Error');
+    }
+});
+exports.getItemByNixId = getItemByNixId;

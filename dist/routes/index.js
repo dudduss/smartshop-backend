@@ -12,4 +12,7 @@ router.get('/users/', validator.query(schemas_1.getUsersQuery), index_1.getUserB
 // router.delete('/users/', deleteUserById);
 // Items Routes
 router.post('/items', validator.body(schemas_1.postItemsBody), index_1.createItem);
+router.get('/itemsById/', validator.query(schemas_1.getItemByIdQuery), index_1.getItemById);
+router.get('/itemsByNixId/', validator.query(schemas_1.getItemByNixIdQuery), index_1.getItemByNixId);
+router.put('/items', validator.body(schemas_1.putItemsBody), index_1.updateItem);
 exports.default = router;

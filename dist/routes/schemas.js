@@ -19,8 +19,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postItemsBody = exports.getUsersQuery = exports.postUsersBody = void 0;
+exports.getItemByNixIdQuery = exports.getItemByIdQuery = exports.putItemsBody = exports.postItemsBody = exports.getUsersQuery = exports.postUsersBody = void 0;
 const Joi = __importStar(require("joi"));
+// Users Schemas
 exports.postUsersBody = Joi.object({
     email: Joi.string().required(),
     passwordHash: Joi.string().required(),
@@ -29,6 +30,7 @@ exports.postUsersBody = Joi.object({
     profilePictureUrl: Joi.string(),
 });
 exports.getUsersQuery = Joi.object({ id: Joi.number().required() });
+// Items Schemas
 exports.postItemsBody = Joi.object({
     numReviews: Joi.number(),
     rating: Joi.number(),
@@ -36,4 +38,13 @@ exports.postItemsBody = Joi.object({
     nix_item_id: Joi.string().required(),
     brandName: Joi.string(),
     nix_brand_id: Joi.string(),
+});
+exports.putItemsBody = Joi.object({
+    id: Joi.number().required(),
+    numReviews: Joi.number().required(),
+    rating: Joi.number().required(),
+});
+exports.getItemByIdQuery = Joi.object({ id: Joi.number().required() });
+exports.getItemByNixIdQuery = Joi.object({
+    nix_item_id: Joi.string().required(),
 });
