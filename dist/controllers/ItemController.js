@@ -13,8 +13,8 @@ exports.getItemByNixId = exports.getItemById = exports.updateItem = exports.crea
 const database_1 = require("../database");
 const createItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { foodName, nix_item_id, brandName, nix_brand_id } = req.body;
-        yield database_1.pool.query('INSERT INTO items (food_name, nix_item_id, brand_name, nix_brand_id) VALUES($1, $2, $3, $4)', [foodName, nix_item_id, brandName, nix_brand_id]);
+        const { foodName, nix_item_id, brandName, nix_brand_id, imageUrl, } = req.body;
+        yield database_1.pool.query('INSERT INTO items (food_name, nix_item_id, brand_name, nix_brand_id, image_url) VALUES($1, $2, $3, $4, $5)', [foodName, nix_item_id, brandName, nix_brand_id, imageUrl]);
         return res.json({ message: 'Item created succesfully' });
     }
     catch (e) {

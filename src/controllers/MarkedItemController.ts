@@ -26,7 +26,7 @@ export const getMarkedItemsByUserId = async (
   try {
     const userId = req.query['userId'];
     const response: QueryResult = await pool.query(
-      'SELECT * FROM markedItems WHERE user_id = $1',
+      'SELECT mi.*, i.num_reviews, i.rating, i.food_name, i.brand_name, i.image_url FROM markedItems mi JOIN items i ON mi.item_id=i.id WHERE user_id = $1',
       [userId]
     );
     return res.status(200).json(response.rows);

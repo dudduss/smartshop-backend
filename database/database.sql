@@ -17,6 +17,7 @@ CREATE TABLE items (
     nix_item_id VARCHAR(255) NOT NULL, 
     brand_name VARCHAR(255) NOT NULL, 
     nix_brand_id VARCHAR(255) NOT NULL, 
+    image_url VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
@@ -50,3 +51,27 @@ CREATE TABLE markedItems (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+CREATE OR REPLACE FUNCTION update_updated_at_column()   
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = now();
+    RETURN NEW;   
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER update_customer_modtime 
+BEFORE UPDATE ON users 
+FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+
+CREATE TRIGGER update_customer_modtime 
+BEFORE UPDATE ON items 
+FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+
+CREATE TRIGGER update_customer_modtime 
+BEFORE UPDATE ON reviews 
+FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+
+CREATE TRIGGER update_customer_modtime 
+BEFORE UPDATE ON markedItems 
+FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();

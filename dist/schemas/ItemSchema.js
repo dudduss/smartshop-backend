@@ -28,6 +28,7 @@ exports.postItemsBody = Joi.object({
     nix_item_id: Joi.string().required(),
     brandName: Joi.string(),
     nix_brand_id: Joi.string(),
+    imageUrl: Joi.string(),
 });
 exports.patchItemsBody = Joi.object({
     id: Joi.number().required(),

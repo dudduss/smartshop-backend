@@ -7,11 +7,17 @@ export const createItem = async (
   res: Response
 ): Promise<Response> => {
   try {
-    const { foodName, nix_item_id, brandName, nix_brand_id } = req.body;
+    const {
+      foodName,
+      nix_item_id,
+      brandName,
+      nix_brand_id,
+      imageUrl,
+    } = req.body;
 
     await pool.query(
-      'INSERT INTO items (food_name, nix_item_id, brand_name, nix_brand_id) VALUES($1, $2, $3, $4)',
-      [foodName, nix_item_id, brandName, nix_brand_id]
+      'INSERT INTO items (food_name, nix_item_id, brand_name, nix_brand_id, image_url) VALUES($1, $2, $3, $4, $5)',
+      [foodName, nix_item_id, brandName, nix_brand_id, imageUrl]
     );
     return res.json({ message: 'Item created succesfully' });
   } catch (e) {
