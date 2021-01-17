@@ -14,7 +14,7 @@ CREATE TABLE items (
 	num_reviews INTEGER NOT NULL DEFAULT 0,
     rating NUMERIC(3,2) NOT NULL DEFAULT 0.0,
     food_name VARCHAR(255) NOT NULL, 
-    nix_item_id VARCHAR(255) NOT NULL, 
+    nix_item_id VARCHAR(255) UNIQUE NOT NULL, 
     brand_name VARCHAR(255) NOT NULL, 
     nix_brand_id VARCHAR(255) NOT NULL, 
     image_url VARCHAR(255) NOT NULL,
