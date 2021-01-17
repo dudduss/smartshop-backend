@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getItemByNixId = exports.getItemById = exports.updateItem = exports.createItem = void 0;
+exports.getItemsBySearch = exports.getItemByNixId = exports.getItemById = exports.updateItem = exports.createItem = void 0;
 const database_1 = require("../database");
+const utils_1 = require("../external/nutritionix/utils");
 const createItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { foodName, nix_item_id, brandName, nix_brand_id, imageUrl, } = req.body;
@@ -55,3 +56,35 @@ const getItemByNixId = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getItemByNixId = getItemByNixId;
+const getItemsBySearch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const searchString = req.query['searchString'];
+        // Hit Nutrionix API here
+        const response = yield utils_1.instantSearch(searchString);
+        const nutritionixItems = response.branded;
+        // For each item in nutrionix API, get from database. If it doesn't exist, create it and return it
+        const items = yield Promise.all(nutritionixItems.map((nutritionixItem) => __awaiter(void 0, void 0, void 0, function* () { return getOrCreateItem(nutritionixItem); })));
+        return res.status(200).json(items);
+    }
+    catch (e) {
+        return res.status(500).json(e);
+    }
+});
+exports.getItemsBySearch = getItemsBySearch;
+function getOrCreateItem(nutritionixItem) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const existingItems = yield database_1.pool.query('SELECT * FROM items WHERE nix_item_id = $1', [nutritionixItem.nix_item_id]);
+        if (existingItems.rows.length > 0) {
+            return existingItems.rows[0];
+        }
+        const createdItems = yield database_1.pool.query('INSERT INTO items (food_name, nix_item_id, brand_name, nix_brand_id, image_url) VALUES($1, $2, $3, $4, $5)', [
+            nutritionixItem.food_name,
+            nutritionixItem.nix_item_id,
+            nutritionixItem.brand_name,
+            nutritionixItem.nix_brand_id,
+            nutritionixItem.photo.thumb,
+        ]);
+        const createdItem = createdItems.rows[0];
+        return createdItem;
+    });
+}

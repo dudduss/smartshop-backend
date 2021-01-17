@@ -10,6 +10,7 @@ import {
   patchItemsBody,
   getItemByIdQuery,
   getItemByNixIdQuery,
+  getItemsBySearchStringQuery,
 } from '../schemas/ItemSchema';
 import {
   postMarkedItemsBody,
@@ -30,6 +31,7 @@ import {
   createItem,
   updateItem,
   getItemByNixId,
+  getItemsBySearch,
 } from '../controllers/ItemController';
 import {
   createMarkedItem,
@@ -61,6 +63,11 @@ router.get(
   getItemByNixId
 );
 router.patch('/items', validator.body(patchItemsBody), updateItem);
+router.get(
+  '/items/search/',
+  validator.query(getItemsBySearchStringQuery),
+  getItemsBySearch
+);
 
 // MarkedItems Routes
 router.post(

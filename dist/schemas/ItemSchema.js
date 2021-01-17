@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getItemByNixIdQuery = exports.getItemByIdQuery = exports.patchItemsBody = exports.postItemsBody = void 0;
+exports.getItemsBySearchStringQuery = exports.getItemByNixIdQuery = exports.getItemByIdQuery = exports.patchItemsBody = exports.postItemsBody = void 0;
 const Joi = __importStar(require("joi"));
 exports.postItemsBody = Joi.object({
     numReviews: Joi.number(),
@@ -39,3 +39,4 @@ exports.getItemByIdQuery = Joi.object({ id: Joi.number().required() });
 exports.getItemByNixIdQuery = Joi.object({
     nix_item_id: Joi.string().required(),
 });
+exports.getItemsBySearchStringQuery = Joi.object({ searchString: Joi.string() });
