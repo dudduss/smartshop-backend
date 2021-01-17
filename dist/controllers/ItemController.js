@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getItemsBySearch = exports.getItemByNixId = exports.getItemById = exports.updateItem = exports.createItem = void 0;
+exports.getItemDetailByNixId = exports.getItemsBySearch = exports.getItemByNixId = exports.getItemById = exports.updateItem = exports.createItem = void 0;
 const database_1 = require("../database");
 const utils_1 = require("../external/nutritionix/utils");
 const createItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -88,3 +88,15 @@ function getOrCreateItem(nutritionixItem) {
         return createdItem;
     });
 }
+const getItemDetailByNixId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const nixItemId = req.query['nix_item_id'];
+        const response = yield utils_1.searchItemDetail(nixItemId);
+        const nutrionixItemDetail = response.foods[0];
+        return res.status(200).json(nutrionixItemDetail);
+    }
+    catch (e) {
+        return res.status(500).json(e);
+    }
+});
+exports.getItemDetailByNixId = getItemDetailByNixId;

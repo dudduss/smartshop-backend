@@ -22,7 +22,10 @@ export const getItemByNixIdQuery = Joi.object({
   nix_item_id: Joi.string().required(),
 });
 
-export const getItemsBySearchStringQuery = Joi.object({ searchString: Joi.string() });
+export const getItemsBySearchStringQuery = Joi.object({
+  searchString: Joi.string(),
+});
 
-
-
+export const getItemDetailByNixIdQuery = Joi.object({
+  nix_item_id: Joi.string(),
+});

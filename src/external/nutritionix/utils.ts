@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { InstantSearchResponse } from './types';
+import { InstantSearchResponse, SearchItemResponse } from './types';
 
 const headers = {
   'x-app-id': '3ec716f6',
@@ -9,28 +9,31 @@ const headers = {
 export async function instantSearch(
   searchString: string
 ): Promise<InstantSearchResponse> {
-  const url =
-    'https://trackapi.nutritionix.com/v2/search/instant?query=' + searchString;
+  try {
+    const url =
+      'https://trackapi.nutritionix.com/v2/search/instant?query=' +
+      searchString;
 
-  const response = await axios.get(url, { headers });
+    const response = await axios.get(url, { headers });
 
-  return response.data;
+    return response.data;
+  } catch (e) {
+    return e;
+  }
 }
 
-// export function instantSearch(searchString: string): any {
-//   try {
-//     const url =
-//       'https://trackapi.nutritionix.com/v2/search/instant?query=' +
-//       searchString;
+export async function searchItemDetail(
+  nixItemId: string
+): Promise<SearchItemResponse> {
+  try {
+    const url =
+      'https://trackapi.nutritionix.com/v2/search/item?nix_item_id=' +
+      nixItemId;
 
-//     axios
-//       .get(url, { headers })
-//       .then((response) => {
-//         console.log('responsedata: ', response.data);
-//         return response.data;
-//       })
-//       .catch((error) => console.log(error));
-//   } catch (e) {
-//     return e;
-//   }
-// }
+    const response = await axios.get(url, { headers });
+
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+}

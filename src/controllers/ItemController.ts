@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { QueryResult } from 'pg';
 import { pool } from '../database';
-import { instantSearch } from '../external/nutritionix/utils';
+import { instantSearch, searchItemDetail } from '../external/nutritionix/utils';
 import { NutritonixFoodItem } from '../external/nutritionix/types';
 import { Item } from '../types';
 
@@ -88,7 +88,6 @@ export const getItemsBySearch = async (
     const nutritionixItems = response.branded;
 
     // For each item in nutrionix API, get from database. If it doesn't exist, create it and return it
-
     const items = await Promise.all(
       nutritionixItems.map(async (nutritionixItem) =>
         getOrCreateItem(nutritionixItem)
@@ -127,3 +126,18 @@ async function getOrCreateItem(
 
   return createdItem;
 }
+
+export const getItemDetailByNixId = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const nixItemId = req.query['nix_item_id'] as string;
+    const response = await searchItemDetail(nixItemId);
+    const nutrionixItemDetail = response.foods[0];
+
+    return res.status(200).json(nutrionixItemDetail);
+  } catch (e) {
+    return res.status(500).json(e);
+  }
+};

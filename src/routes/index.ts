@@ -11,6 +11,7 @@ import {
   getItemByIdQuery,
   getItemByNixIdQuery,
   getItemsBySearchStringQuery,
+  getItemDetailByNixIdQuery,
 } from '../schemas/ItemSchema';
 import {
   postMarkedItemsBody,
@@ -32,6 +33,7 @@ import {
   updateItem,
   getItemByNixId,
   getItemsBySearch,
+  getItemDetailByNixId,
 } from '../controllers/ItemController';
 import {
   createMarkedItem,
@@ -67,6 +69,11 @@ router.get(
   '/items/search/',
   validator.query(getItemsBySearchStringQuery),
   getItemsBySearch
+);
+router.get(
+  '/items/search/detail',
+  validator.body(getItemDetailByNixIdQuery),
+  getItemDetailByNixId
 );
 
 // MarkedItems Routes
