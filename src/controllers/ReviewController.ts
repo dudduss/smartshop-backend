@@ -59,7 +59,7 @@ export const getReviewsByItemId = async (
   try {
     const itemId = req.query['itemId'];
     const response: QueryResult = await pool.query(
-      'SELECT * FROM reviews WHERE item_id = $1',
+      'SELECT r.*, u.first_name, u.last_name, u.profile_picture_url FROM reviews r JOIN users u ON r.user_id = u.id WHERE item_id = $1',
       [itemId]
     );
     return res.status(200).json(response.rows);

@@ -47,7 +47,7 @@ exports.getReviewsByUserId = getReviewsByUserId;
 const getReviewsByItemId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const itemId = req.query['itemId'];
-        const response = yield database_1.pool.query('SELECT * FROM reviews WHERE item_id = $1', [itemId]);
+        const response = yield database_1.pool.query('SELECT r.*, u.first_name, u.last_name, u.profile_picture_url FROM reviews r JOIN users u ON r.user_id = u.id WHERE item_id = $1', [itemId]);
         return res.status(200).json(response.rows);
     }
     catch (e) {
