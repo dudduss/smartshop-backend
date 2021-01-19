@@ -25,7 +25,7 @@ exports.createMarkedItem = createMarkedItem;
 const getMarkedItemsByUserId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userId = req.query['userId'];
-        const response = yield database_1.pool.query('SELECT mi.*, i.num_reviews, i.rating, i.food_name, i.brand_name, i.image_url, i.nix_item_id FROM markedItems mi JOIN items i ON mi.item_id=i.id WHERE user_id = $1', [userId]);
+        const response = yield database_1.pool.query('SELECT mi.*, i.food_name, i.brand_name, i.image_url, i.nix_item_id FROM markedItems mi JOIN items i ON mi.item_id=i.id WHERE user_id = $1', [userId]);
         return res.status(200).json(response.rows);
     }
     catch (e) {

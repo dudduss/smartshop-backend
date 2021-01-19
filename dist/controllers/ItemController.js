@@ -77,13 +77,14 @@ function getOrCreateItem(nutritionixItem) {
         if (existingItems.rows.length > 0) {
             return existingItems.rows[0];
         }
-        const createdItems = yield database_1.pool.query('INSERT INTO items (food_name, nix_item_id, brand_name, nix_brand_id, image_url) VALUES($1, $2, $3, $4, $5)', [
+        yield database_1.pool.query('INSERT INTO items (food_name, nix_item_id, brand_name, nix_brand_id, image_url) VALUES($1, $2, $3, $4, $5)', [
             nutritionixItem.food_name,
             nutritionixItem.nix_item_id,
             nutritionixItem.brand_name,
             nutritionixItem.nix_brand_id,
             nutritionixItem.photo.thumb,
         ]);
+        const createdItems = yield database_1.pool.query('SELECT * FROM items WHERE nix_item_id = $1', [nutritionixItem.nix_item_id]);
         const createdItem = createdItems.rows[0];
         return createdItem;
     });

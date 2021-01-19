@@ -111,7 +111,7 @@ async function getOrCreateItem(
     return existingItems.rows[0];
   }
 
-  const createdItems: QueryResult = await pool.query(
+  await pool.query(
     'INSERT INTO items (food_name, nix_item_id, brand_name, nix_brand_id, image_url) VALUES($1, $2, $3, $4, $5)',
     [
       nutritionixItem.food_name,
@@ -120,6 +120,11 @@ async function getOrCreateItem(
       nutritionixItem.nix_brand_id,
       nutritionixItem.photo.thumb,
     ]
+  );
+
+  const createdItems: QueryResult = await pool.query(
+    'SELECT * FROM items WHERE nix_item_id = $1',
+    [nutritionixItem.nix_item_id]
   );
 
   const createdItem = createdItems.rows[0] as Item;
