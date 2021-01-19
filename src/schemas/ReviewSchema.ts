@@ -3,13 +3,13 @@ import * as Joi from 'joi';
 export const postReviewsBody = Joi.object({
   userId: Joi.number().required(),
   itemId: Joi.number().required(),
-  content: Joi.string(),
+  content: Joi.string().allow(''),
   rating: Joi.number().required(),
 });
 
 export const patchReviewsBody = Joi.object({
   id: Joi.number().required(),
-  content: Joi.string(),
+  content: Joi.string().allow(''),
   rating: Joi.number().required(),
 });
 

@@ -24,12 +24,12 @@ const Joi = __importStar(require("joi"));
 exports.postReviewsBody = Joi.object({
     userId: Joi.number().required(),
     itemId: Joi.number().required(),
-    content: Joi.string(),
+    content: Joi.string().allow(''),
     rating: Joi.number().required(),
 });
 exports.patchReviewsBody = Joi.object({
     id: Joi.number().required(),
-    content: Joi.string(),
+    content: Joi.string().allow(''),
     rating: Joi.number().required(),
 });
 exports.getReviewsByUserIdQuery = Joi.object({
