@@ -29,5 +29,6 @@ exports.getMarkedItemsByUserIdQuery = Joi.object({
     userId: Joi.number().required(),
 });
 exports.deleteMarkedItemQuery = Joi.object({
-    id: Joi.number().required(),
+    userId: Joi.number().required(),
+    itemId: Joi.number().required(),
 });

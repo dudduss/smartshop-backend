@@ -35,8 +35,9 @@ const getMarkedItemsByUserId = (req, res) => __awaiter(void 0, void 0, void 0, f
 exports.getMarkedItemsByUserId = getMarkedItemsByUserId;
 const deleteMarkedItemById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const markedItemId = req.query['id'];
-        yield database_1.pool.query('DELETE FROM markedItems WHERE id = $1', [markedItemId]);
+        const userId = req.query['userId'];
+        const itemId = req.query['itemId'];
+        yield database_1.pool.query('DELETE FROM markedItems WHERE user_id = $1 and item_id = $2', [userId, itemId]);
         return res.status(200).json('Succesfully deleted MarkedItem');
     }
     catch (e) {

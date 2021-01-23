@@ -10,5 +10,6 @@ export const getMarkedItemsByUserIdQuery = Joi.object({
 });
 
 export const deleteMarkedItemQuery = Joi.object({
-  id: Joi.number().required(),
+  userId: Joi.number().required(),
+  itemId: Joi.number().required(),
 });

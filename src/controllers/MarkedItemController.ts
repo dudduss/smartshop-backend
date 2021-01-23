@@ -40,8 +40,12 @@ export const deleteMarkedItemById = async (
   res: Response
 ): Promise<Response> => {
   try {
-    const markedItemId = req.query['id'];
-    await pool.query('DELETE FROM markedItems WHERE id = $1', [markedItemId]);
+    const userId = req.query['userId'];
+    const itemId = req.query['itemId'];
+    await pool.query(
+      'DELETE FROM markedItems WHERE user_id = $1 and item_id = $2',
+      [userId, itemId]
+    );
     return res.status(200).json('Succesfully deleted MarkedItem');
   } catch (e) {
     return res.status(500).json(e);
