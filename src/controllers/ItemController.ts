@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
 import { QueryResult } from 'pg';
 import { pool } from '../database';
-import { instantSearch, searchItemDetail } from '../external/nutritionix/utils';
+import {
+  instantSearch,
+  searchItemByUpc,
+  searchItemDetail,
+} from '../external/nutritionix/utils';
 import { NutritonixFoodItem } from '../external/nutritionix/types';
 import { Item } from '../types';
 
@@ -77,7 +81,7 @@ export const getItemByNixId = async (
   }
 };
 
-export const getItemsBySearch = async (
+export const getAndCreateItemsBySearch = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
@@ -95,6 +99,25 @@ export const getItemsBySearch = async (
     );
 
     return res.status(200).json(items);
+  } catch (e) {
+    return res.status(500).json(e);
+  }
+};
+
+export const getAndCreateItemBySearchUpc = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const upc = req.query['upc'] as string;
+    // Hit Nutrionix API here
+    const response = await searchItemByUpc(upc);
+    const nutritionixItem = response.foods[0] as NutritonixFoodItem;
+
+    // For the item, get from database. If it doesn't exist, create it and return it
+    const item = await getOrCreateItem(nutritionixItem);
+
+    return res.status(200).json(item);
   } catch (e) {
     return res.status(500).json(e);
   }

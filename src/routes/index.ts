@@ -12,6 +12,7 @@ import {
   getItemByNixIdQuery,
   getItemsBySearchStringQuery,
   getItemDetailByNixIdQuery,
+  getItemByUpcQuery,
 } from '../schemas/ItemSchema';
 import {
   postMarkedItemsBody,
@@ -32,8 +33,9 @@ import {
   createItem,
   updateItem,
   getItemByNixId,
-  getItemsBySearch,
+  getAndCreateItemsBySearch,
   getItemDetailByNixId,
+  getAndCreateItemBySearchUpc,
 } from '../controllers/ItemController';
 import {
   createMarkedItem,
@@ -68,7 +70,12 @@ router.patch('/items', validator.body(patchItemsBody), updateItem);
 router.get(
   '/items/search/',
   validator.query(getItemsBySearchStringQuery),
-  getItemsBySearch
+  getAndCreateItemsBySearch
+);
+router.get(
+  '/items/searchByUpc/',
+  validator.query(getItemByUpcQuery),
+  getAndCreateItemBySearchUpc
 );
 router.get(
   '/items/search/detail',

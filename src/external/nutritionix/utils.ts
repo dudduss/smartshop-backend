@@ -37,3 +37,17 @@ export async function searchItemDetail(
     return e;
   }
 }
+
+export async function searchItemByUpc(
+  upc: string
+): Promise<SearchItemResponse> {
+  try {
+    const url = 'https://trackapi.nutritionix.com/v2/search/item?upc=' + upc;
+
+    const response = await axios.get(url, { headers });
+
+    return response.data;
+  } catch (e) {
+    return e;
+  }
+}

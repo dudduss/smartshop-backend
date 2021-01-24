@@ -26,6 +26,10 @@ export const getItemsBySearchStringQuery = Joi.object({
   searchString: Joi.string(),
 });
 
+export const getItemByUpcQuery = Joi.object({
+  upc: Joi.string(),
+});
+
 export const getItemDetailByNixIdQuery = Joi.object({
   nix_item_id: Joi.string(),
 });

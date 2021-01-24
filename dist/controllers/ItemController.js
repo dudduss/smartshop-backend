@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getItemDetailByNixId = exports.getItemsBySearch = exports.getItemByNixId = exports.getItemById = exports.updateItem = exports.createItem = void 0;
+exports.getItemDetailByNixId = exports.getAndCreateItemBySearchUpc = exports.getAndCreateItemsBySearch = exports.getItemByNixId = exports.getItemById = exports.updateItem = exports.createItem = void 0;
 const database_1 = require("../database");
 const utils_1 = require("../external/nutritionix/utils");
 const createItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -56,7 +56,7 @@ const getItemByNixId = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getItemByNixId = getItemByNixId;
-const getItemsBySearch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAndCreateItemsBySearch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const searchString = req.query['searchString'];
         // Hit Nutrionix API here
@@ -70,7 +70,22 @@ const getItemsBySearch = (req, res) => __awaiter(void 0, void 0, void 0, functio
         return res.status(500).json(e);
     }
 });
-exports.getItemsBySearch = getItemsBySearch;
+exports.getAndCreateItemsBySearch = getAndCreateItemsBySearch;
+const getAndCreateItemBySearchUpc = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const upc = req.query['upc'];
+        // Hit Nutrionix API here
+        const response = yield utils_1.searchItemByUpc(upc);
+        const nutritionixItem = response.foods[0];
+        // For the item, get from database. If it doesn't exist, create it and return it
+        const item = yield getOrCreateItem(nutritionixItem);
+        return res.status(200).json(item);
+    }
+    catch (e) {
+        return res.status(500).json(e);
+    }
+});
+exports.getAndCreateItemBySearchUpc = getAndCreateItemBySearchUpc;
 function getOrCreateItem(nutritionixItem) {
     return __awaiter(this, void 0, void 0, function* () {
         const existingItems = yield database_1.pool.query('SELECT * FROM items WHERE nix_item_id = $1', [nutritionixItem.nix_item_id]);
