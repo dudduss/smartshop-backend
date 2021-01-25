@@ -39,4 +39,6 @@ export type NutritonixFoodItemDetail = {
     thumb: 'string';
   };
   nix_item_id: string;
+  nf_ingredient_statement: string;
+  claims: string[];
 };

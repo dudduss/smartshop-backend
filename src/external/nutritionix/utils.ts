@@ -28,7 +28,8 @@ export async function searchItemDetail(
   try {
     const url =
       'https://trackapi.nutritionix.com/v2/search/item?nix_item_id=' +
-      nixItemId;
+      nixItemId +
+      '&claims=true';
 
     const response = await axios.get(url, { headers });
 

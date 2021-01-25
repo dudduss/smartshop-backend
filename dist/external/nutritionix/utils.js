@@ -36,7 +36,8 @@ function searchItemDetail(nixItemId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const url = 'https://trackapi.nutritionix.com/v2/search/item?nix_item_id=' +
-                nixItemId;
+                nixItemId +
+                '&claims=true';
             const response = yield axios_1.default.get(url, { headers });
             return response.data;
         }
