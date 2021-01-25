@@ -8,6 +8,11 @@ import {
 } from '../external/nutritionix/utils';
 import { NutritonixFoodItem } from '../external/nutritionix/types';
 import { Item } from '../types';
+import {
+  NUM_COMPARABLE_ITEMS_MINIMUM,
+  NUM_COMPARABLE_ITEMS_MAXIMUM,
+} from '../constants';
+import { calculateHealthScore } from '../utils';
 
 export const createItem = async (
   req: Request,
@@ -165,6 +170,62 @@ export const getItemDetailByNixId = async (
     const nutrionixItemDetail = response.foods[0];
 
     return res.status(200).json(nutrionixItemDetail);
+  } catch (e) {
+    return res.status(500).json(e);
+  }
+};
+
+export const getItemHealthByNixId = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const nixItemId = req.query['nix_item_id'] as string;
+
+    // Get the Item Detail First
+    const itemDetailResponse = await searchItemDetail(nixItemId);
+    const itemDetail = itemDetailResponse.foods[0];
+
+    // Then use that food name to search and get those responses as well into an array
+    const itemSearchResponse = await instantSearch(itemDetail.food_name);
+    const otherItems = itemSearchResponse.branded;
+
+    // Eliminate the original item, then truncate to 10
+    var otherItemsFiltered = otherItems.filter(
+      (otherItem) => otherItem.nix_item_id != itemDetail.nix_item_id
+    );
+
+    console.log('got to filtering');
+
+    // If there are not enough items to compare, we should just respond back with that message
+    if (otherItemsFiltered.length < NUM_COMPARABLE_ITEMS_MINIMUM) {
+      return res.status(200).json('Not enough other items to compare');
+    }
+
+    if (otherItemsFiltered.length > NUM_COMPARABLE_ITEMS_MAXIMUM) {
+      otherItemsFiltered = otherItemsFiltered.splice(
+        0,
+        NUM_COMPARABLE_ITEMS_MAXIMUM
+      );
+    }
+
+    // For each item, get the item detail
+    const otherItemsDetail = await Promise.all(
+      otherItemsFiltered.map(
+        async (otherItem) =>
+          (await searchItemDetail(otherItem.nix_item_id)).foods[0]
+      )
+    );
+
+    console.log('got to details');
+
+    // use separate function to calculate the health score of our item
+    const healthScore = await calculateHealthScore(
+      itemDetail,
+      otherItemsDetail
+    );
+
+    return res.status(200).json({ healthScore });
   } catch (e) {
     return res.status(500).json(e);
   }

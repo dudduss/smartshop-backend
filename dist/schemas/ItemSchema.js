@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getItemDetailByNixIdQuery = exports.getItemByUpcQuery = exports.getItemsBySearchStringQuery = exports.getItemByNixIdQuery = exports.getItemByIdQuery = exports.patchItemsBody = exports.postItemsBody = void 0;
+exports.getItemHealthByNixIdQuery = exports.getItemDetailByNixIdQuery = exports.getItemByUpcQuery = exports.getItemsBySearchStringQuery = exports.getItemByNixIdQuery = exports.getItemByIdQuery = exports.patchItemsBody = exports.postItemsBody = void 0;
 const Joi = __importStar(require("joi"));
 exports.postItemsBody = Joi.object({
     numReviews: Joi.number(),
@@ -46,5 +46,8 @@ exports.getItemByUpcQuery = Joi.object({
     upc: Joi.string(),
 });
 exports.getItemDetailByNixIdQuery = Joi.object({
+    nix_item_id: Joi.string(),
+});
+exports.getItemHealthByNixIdQuery = Joi.object({
     nix_item_id: Joi.string(),
 });

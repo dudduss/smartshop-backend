@@ -33,3 +33,7 @@ export const getItemByUpcQuery = Joi.object({
 export const getItemDetailByNixIdQuery = Joi.object({
   nix_item_id: Joi.string(),
 });
+
+export const getItemHealthByNixIdQuery = Joi.object({
+  nix_item_id: Joi.string(),
+});

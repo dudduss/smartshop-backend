@@ -9,9 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getItemDetailByNixId = exports.getAndCreateItemBySearchUpc = exports.getAndCreateItemsBySearch = exports.getItemByNixId = exports.getItemById = exports.updateItem = exports.createItem = void 0;
+exports.getItemHealthByNixId = exports.getItemDetailByNixId = exports.getAndCreateItemBySearchUpc = exports.getAndCreateItemsBySearch = exports.getItemByNixId = exports.getItemById = exports.updateItem = exports.createItem = void 0;
 const database_1 = require("../database");
 const utils_1 = require("../external/nutritionix/utils");
+const constants_1 = require("../constants");
+const utils_2 = require("../utils");
 const createItem = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { foodName, nix_item_id, brandName, nix_brand_id, imageUrl, } = req.body;
@@ -116,3 +118,34 @@ const getItemDetailByNixId = (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 exports.getItemDetailByNixId = getItemDetailByNixId;
+const getItemHealthByNixId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const nixItemId = req.query['nix_item_id'];
+        // Get the Item Detail First
+        const itemDetailResponse = yield utils_1.searchItemDetail(nixItemId);
+        const itemDetail = itemDetailResponse.foods[0];
+        // Then use that food name to search and get those responses as well into an array
+        const itemSearchResponse = yield utils_1.instantSearch(itemDetail.food_name);
+        const otherItems = itemSearchResponse.branded;
+        // Eliminate the original item, then truncate to 10
+        var otherItemsFiltered = otherItems.filter((otherItem) => otherItem.nix_item_id != itemDetail.nix_item_id);
+        console.log('got to filtering');
+        // If there are not enough items to compare, we should just respond back with that message
+        if (otherItemsFiltered.length < constants_1.NUM_COMPARABLE_ITEMS_MINIMUM) {
+            return res.status(200).json('Not enough other items to compare');
+        }
+        if (otherItemsFiltered.length > constants_1.NUM_COMPARABLE_ITEMS_MAXIMUM) {
+            otherItemsFiltered = otherItemsFiltered.splice(0, constants_1.NUM_COMPARABLE_ITEMS_MAXIMUM);
+        }
+        // For each item, get the item detail
+        const otherItemsDetail = yield Promise.all(otherItemsFiltered.map((otherItem) => __awaiter(void 0, void 0, void 0, function* () { return (yield utils_1.searchItemDetail(otherItem.nix_item_id)).foods[0]; })));
+        console.log('got to details');
+        // use separate function to calculate the health score of our item
+        const healthScore = yield utils_2.calculateHealthScore(itemDetail, otherItemsDetail);
+        return res.status(200).json({ healthScore });
+    }
+    catch (e) {
+        return res.status(500).json(e);
+    }
+});
+exports.getItemHealthByNixId = getItemHealthByNixId;

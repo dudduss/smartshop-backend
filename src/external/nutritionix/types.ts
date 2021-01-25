@@ -42,3 +42,15 @@ export type NutritonixFoodItemDetail = {
   nf_ingredient_statement: string;
   claims: string[];
 };
+
+export enum Nutrient {
+  nf_calories = 'nf_calories',
+  nf_total_fat = 'nf_total_fat',
+  nf_saturated_fat = 'nf_saturated_fat',
+  nf_cholesterol = 'nf_cholesterol',
+  nf_sodium = 'nf_sodium',
+  nf_total_carbohydrate = 'nf_total_carbohydrate',
+  nf_dietary_fiber = 'nf_dietary_fiber',
+  nf_sugars = 'nf_sugars',
+  nf_protein = 'nf_protein',
+}

@@ -13,6 +13,7 @@ import {
   getItemsBySearchStringQuery,
   getItemDetailByNixIdQuery,
   getItemByUpcQuery,
+  getItemHealthByNixIdQuery,
 } from '../schemas/ItemSchema';
 import {
   postMarkedItemsBody,
@@ -36,6 +37,7 @@ import {
   getAndCreateItemsBySearch,
   getItemDetailByNixId,
   getAndCreateItemBySearchUpc,
+  getItemHealthByNixId,
 } from '../controllers/ItemController';
 import {
   createMarkedItem,
@@ -81,6 +83,12 @@ router.get(
   '/items/search/detail',
   validator.body(getItemDetailByNixIdQuery),
   getItemDetailByNixId
+);
+
+router.get(
+  '/items/health',
+  validator.body(getItemHealthByNixIdQuery),
+  getItemHealthByNixId
 );
 
 // MarkedItems Routes

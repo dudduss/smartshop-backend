@@ -24,6 +24,7 @@ router.patch('/items', validator.body(ItemSchema_1.patchItemsBody), ItemControll
 router.get('/items/search/', validator.query(ItemSchema_1.getItemsBySearchStringQuery), ItemController_1.getAndCreateItemsBySearch);
 router.get('/items/searchByUpc/', validator.query(ItemSchema_1.getItemByUpcQuery), ItemController_1.getAndCreateItemBySearchUpc);
 router.get('/items/search/detail', validator.body(ItemSchema_1.getItemDetailByNixIdQuery), ItemController_1.getItemDetailByNixId);
+router.get('/items/health', validator.body(ItemSchema_1.getItemHealthByNixIdQuery), ItemController_1.getItemHealthByNixId);
 // MarkedItems Routes
 router.post('/markedItems', validator.body(MarkedItemSchema_1.postMarkedItemsBody), MarkedItemController_1.createMarkedItem);
 router.get('/markedItemsByUserId/', validator.query(MarkedItemSchema_1.getMarkedItemsByUserIdQuery), MarkedItemController_1.getMarkedItemsByUserId);
