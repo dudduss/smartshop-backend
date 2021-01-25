@@ -12,7 +12,11 @@ import {
   NUM_COMPARABLE_ITEMS_MINIMUM,
   NUM_COMPARABLE_ITEMS_MAXIMUM,
 } from '../constants';
-import { calculateHealthScore } from '../utils';
+import {
+  calculateHealthScore,
+  calculateNutrientComparisons,
+  normalizeItemsDetail,
+} from '../utils';
 
 export const createItem = async (
   req: Request,
@@ -219,13 +223,28 @@ export const getItemHealthByNixId = async (
 
     console.log('got to details');
 
-    // use separate function to calculate the health score of our item
-    const healthScore = await calculateHealthScore(
+    const otherItemsDetailNormalized = normalizeItemsDetail(
       itemDetail,
       otherItemsDetail
     );
 
-    return res.status(200).json({ healthScore });
+    const [healthScore, nutrientComparisons] = await Promise.all([
+      calculateHealthScore(itemDetail, otherItemsDetailNormalized),
+      calculateNutrientComparisons(itemDetail, otherItemsDetailNormalized),
+    ]);
+
+    // use separate function to calculate the health score of our item
+    // const healthScore = await calculateHealthScore(
+    //   itemDetail,
+    //   otherItemsDetailNormalized
+    // );
+
+    // const nutrientComparisons = await calculateNutrientComparisons(
+    //   itemDetail,
+    //   otherItemsDetailNormalized
+    // );
+
+    return res.status(200).json({ healthScore, nutrientComparisons });
   } catch (e) {
     return res.status(500).json(e);
   }

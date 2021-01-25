@@ -140,9 +140,21 @@ const getItemHealthByNixId = (req, res) => __awaiter(void 0, void 0, void 0, fun
         // For each item, get the item detail
         const otherItemsDetail = yield Promise.all(otherItemsFiltered.map((otherItem) => __awaiter(void 0, void 0, void 0, function* () { return (yield utils_1.searchItemDetail(otherItem.nix_item_id)).foods[0]; })));
         console.log('got to details');
+        const otherItemsDetailNormalized = utils_2.normalizeItemsDetail(itemDetail, otherItemsDetail);
+        const [healthScore, nutrientComparisons] = yield Promise.all([
+            utils_2.calculateHealthScore(itemDetail, otherItemsDetailNormalized),
+            utils_2.calculateNutrientComparisons(itemDetail, otherItemsDetailNormalized),
+        ]);
         // use separate function to calculate the health score of our item
-        const healthScore = yield utils_2.calculateHealthScore(itemDetail, otherItemsDetail);
-        return res.status(200).json({ healthScore });
+        // const healthScore = await calculateHealthScore(
+        //   itemDetail,
+        //   otherItemsDetailNormalized
+        // );
+        // const nutrientComparisons = await calculateNutrientComparisons(
+        //   itemDetail,
+        //   otherItemsDetailNormalized
+        // );
+        return res.status(200).json({ healthScore, nutrientComparisons });
     }
     catch (e) {
         return res.status(500).json(e);
